@@ -1,0 +1,186 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+if [ ! -e _common.sh ]; then
+	# Get the _common.sh file if it's not in the current directory
+	cp ../settings/scripts/_common.sh ./_common.sh
+	chmod a+rx _common.sh
+fi
+source _common.sh
+source /usr/share/yunohost/helpers
+# Load common variables for all scripts.
+source ../settings/scripts/_variables
+
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+ynh_clean_setup () {
+# Nettoyage des résidus d'installation non pris en charge par le script remove.
+	ynh_clean_check_starting
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+#=================================================
+# LOAD SETTINGS
+#=================================================
+
+app=$YNH_APP_INSTANCE_NAME
+
+domain=$(ynh_app_setting_get $app domain)
+path_url=$(ynh_app_setting_get $app path)
+final_path=$(ynh_app_setting_get $app final_path)
+db_name=$(ynh_app_setting_get $app db_name)
+export=$(ynh_app_setting_get $app export)
+mypads=$(ynh_app_setting_get $app mypads)
+admin=$(ynh_app_setting_get $app admin)
+ynh_print_OFF; password=$(ynh_app_setting_get $app password); ynh_print_ON
+
+#=================================================
+# CHECK IF THE APP CAN BE RESTORED
+#=================================================
+
+ynh_webpath_available $domain $path_url \
+	|| ynh_die "Path not available: ${domain}${path_url}"
+test ! -d $final_path \
+	|| ynh_die "There is already a directory: $final_path "
+
+#=================================================
+# STANDARD RESTORE STEPS
+#=================================================
+# RESTORE OF THE NGINX CONFIGURATION
+#=================================================
+
+ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
+
+#=================================================
+# RESTORE OF THE MAIN DIR OF THE APP
+#=================================================
+
+ynh_restore_file "$final_path"
+
+#=================================================
+# RESTORE THE SQL DB
+#=================================================
+
+db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+ynh_mysql_setup_db $db_name $db_name $db_pwd
+ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
+
+#=================================================
+# RECREATE THE DEDICATED USER
+#=================================================
+
+ynh_system_user_create $app $final_path	# Recreate the dedicated user, if it doesn't exist
+
+#=================================================
+# SPECIFIC RESTORE
+#=================================================
+# HANDLE LOG FILES AND LOGROTATE
+#=================================================
+
+mkdir -p /var/log/$app
+touch /var/log/$app/etherpad.log
+install_log=/var/log/$app/installation.log
+touch $install_log
+chown $app -R /var/log/$app
+chown admin -R $install_log
+
+# Restore logrotate configuration
+ynh_restore_file "/etc/logrotate.d/$app"
+
+#=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+
+if [ "$export" = "abiword" ]; then
+	ynh_install_app_dependencies $abiword_app_depencencies
+elif [ "$export" = "libreoffice" ]; then
+	ynh_install_app_dependencies $libreoffice_app_dependencies
+fi
+
+#=================================================
+# INSTALL NODEJS
+#=================================================
+
+ynh_install_nodejs $nodejs_version
+
+#=================================================
+# INSTALL ETHERPAD DEPENDENCIES
+#=================================================
+
+ynh_use_nodejs
+npm cache clean
+npm install forever -g >> $install_log 2>&1
+
+#=================================================
+# ENABLE SERVICE IN ADMIN PANEL
+#=================================================
+
+yunohost service add $app --log "/var/log/$app/etherpad.log"
+
+#=================================================
+# RESTORE SYSTEMD
+#=================================================
+
+ynh_restore_file "/etc/systemd/system/$app.service"
+## Démarrage auto du service
+systemctl enable $app.service
+
+#=================================================
+# RESTORE FAIL2BAN CONFIGURATION
+#=================================================
+
+ynh_restore_file "/etc/fail2ban/jail.d/$app.conf"
+ynh_restore_file "/etc/fail2ban/filter.d/$app.conf"
+systemctl restart fail2ban
+
+#=================================================
+# RELOAD NGINX
+#=================================================
+
+systemctl reload nginx
+
+#=================================================
+# CHECK ETHERPAD STARTING
+#=================================================
+
+# Wait for etherpad to be fully started
+ynh_check_starting "You can access your Etherpad instance at" "/var/log/$app/etherpad.log" "120"
+
+#=================================================
+# SEND A README FOR THE ADMIN
+#=================================================
+
+if [ $mypads -eq 1 ]
+then
+	Informations1="You can access 2 different admin panels, for etherpad by accessing https://$domain${path_url%/}/admin and for mypads by accessing https://$domain${path_url%/}/mypads/?/admin."
+
+	Informations2="
+Because there's no ldap support with mypads plugin, no user is created at the installation.
+You have to connect to the admin panel to create the first users.
+"
+else
+	Informations1="You can access to the admin panel, by accessing https://$domain${path_url%/}/admin."
+
+	Informations2=""
+fi
+
+ynh_print_OFF
+message="$Informations1
+Or, you can find a config file for etherpad at this path /var/www/etherpad_mypads/settings.json.
+
+Your credentials for the admin panel are:
+- login		: $admin
+- password	: $password
+$Informations2
+If you are facing an issue or want to improve this app, please open a new issue in this project: https://github.com/YunoHost-Apps/etherpad_mypads_ynh"
+
+ynh_send_readme_to_admin "$message" "$admin"
+ynh_print_ON

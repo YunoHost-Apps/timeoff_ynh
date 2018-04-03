@@ -1,0 +1,82 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC STARTING
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# LOAD SETTINGS
+#=================================================
+
+app=$YNH_APP_INSTANCE_NAME
+
+domain=$(ynh_app_setting_get $app domain)
+port=$(ynh_app_setting_get $app port)
+db_name=$(ynh_app_setting_get $app db_name)
+
+#=================================================
+# STANDARD REMOVE
+#=================================================
+# STOP AND REMOVE SERVICE
+#=================================================
+
+ynh_remove_systemd_config
+
+#=================================================
+# DISABLE SERVICE IN ADMIN PANEL
+#=================================================
+
+if yunohost service status | grep -q $app	# Check if service is declared in YunoHost
+then
+	ynh_print_info "Remove $app service" >&2
+	yunohost service remove $app
+fi
+
+#=================================================
+# REMOVE NODEJS
+#=================================================
+
+ynh_remove_nodejs
+
+#=================================================
+# REMOVE THE SQL DB
+#=================================================
+
+ynh_mysql_remove_db $db_name $db_name	# Remove the database along with the associated user
+
+#=================================================
+# REMOVE THE MAIN DIR OF THE APP
+#=================================================
+
+ynh_secure_remove "/var/www/$app"	# Remove the app directory securely
+
+#=================================================
+# REMOVE THE NGINX CONFIGURATION
+#=================================================
+
+ynh_remove_nginx_config	# Remove the dedicated nginx config
+
+#=================================================
+# REMOVE THE LOGROTATE CONFIG
+#=================================================
+
+ynh_remove_logrotate	# Remove the app-specific logrotate config
+
+#=================================================
+# REMOVE FAIL2BAN CONFIGURATION
+#=================================================
+
+#ynh_remove_fail2ban_config
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# REMOVE DEDICATED USER
+#=================================================
+
+ynh_system_user_delete $app

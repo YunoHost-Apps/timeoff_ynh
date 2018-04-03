@@ -1,0 +1,46 @@
+{
+	"name": "Timeoff Management",
+	"id": "timeoff",
+	"packaging_format": 1,
+	"description": {
+		"en": "Open source, simple yet powerful absence management software for small and medium size business."
+	},
+	"version": "0.10.0~ynh2",
+	"url": "https://timeoff.management/",
+	"license": "MIT",
+	"maintainer": {
+		"name": "Julien Malik",
+		"email": "ju@paraiso.me"
+	},
+	"requirements": {
+		"yunohost": ">= 2.7.10"
+	},
+	"multi_instance": false,
+	"services": [
+		"nginx",
+		"mysql"
+	],
+	"arguments": {
+		"install" : [
+			{
+				"name": "domain",
+				"type": "domain",
+				"ask": {
+					"en": "Choose a domain for Timeoff Management.",
+					"fr": "Choisissez un domaine pour Timeoff Management."
+				},
+				"example": "sub.domain.org"
+			},
+			{
+				"name": "path",
+				"type": "path",
+				"ask": {
+					"en": "Choose a path for Timeoff Management",
+					"fr": "Choisissez un chemin pour Timeoff Management"
+				},
+				"example": "/timeoff",
+				"default": "/timeoff"
+			}
+		]
+	}
+}

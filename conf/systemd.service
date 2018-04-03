@@ -1,0 +1,17 @@
+[Unit]
+Description=Timeoff management
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=__APP__
+Group=__APP__
+ExecStartPre=__NODEJS__
+Environment="PATH=__ENV_PATH__"
+Environment="PORT=__PORT__"
+WorkingDirectory=__FINAL_PATH__
+ExecStart=/opt/node_n/n/versions/node/8/bin/npm start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

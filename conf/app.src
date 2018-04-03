@@ -1,0 +1,6 @@
+SOURCE_URL=https://github.com/timeoff-management/application/archive/v0.10.0.tar.gz
+SOURCE_SUM=3dc6e8ab0d4a151bf8b30a0fd2094af6
+SOURCE_SUM_PRG=md5sum
+ARCH_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=true
+SOURCE_FILENAME=
