@@ -57,27 +57,26 @@ SOURCE_SUM=2ba3c9d4dd3c7e38885b37e02337906a1ee91febe6d5c9159d89a9050f2eea8f" > "
 	PREFIX=$N_PREFIX make install 2>&1)
 }
 
-ynh_use_nodejs () {
-	nodejs_version=$(ynh_app_setting_get $app nodejs_version)
-
-	load_n_path="[[ :$PATH: == *\":$n_install_dir/bin:\"* ]] || PATH=\"$n_install_dir/bin:$PATH\"; N_PREFIX="$n_install_dir""
-
-	nodejs_use_version="$n_install_dir/bin/n -q $nodejs_version"
-
-	# "Load" a version of node
-	eval $load_n_path; $nodejs_use_version
-
-	# Get the absolute path of this version of node
-	nodejs_path="$(n bin $nodejs_version)"
-
-	# Make an alias for node use
-	ynh_node_exec="eval $load_n_path; n use $nodejs_version"
-}
+# ynh_use_nodejs () {
+# 	nodejs_version=$(ynh_app_setting_get $app nodejs_version)
+#
+# 	load_n_path="[[ :$PATH: == *\":$n_install_dir/bin:\"* ]] || PATH=\"$n_install_dir/bin:$PATH\"; N_PREFIX="$n_install_dir""
+#
+# 	nodejs_use_version="$n_install_dir/bin/n -q $nodejs_version"
+#
+# 	# "Load" a version of node
+# 	eval $load_n_path; $nodejs_use_version
+#
+# 	# Get the absolute path of this version of node
+# 	nodejs_path="$(n bin $nodejs_version)"
+#
+# 	# Make an alias for node use
+# 	ynh_node_exec="eval $load_n_path; n use $nodejs_version"
+# }
 
 ynh_install_nodejs () {
 	# Use n, https://github.com/tj/n to manage the nodejs versions
 	nodejs_version="$1"
-	local n_install_script="https://git.io/n-install"
 
 	# Create $n_install_dir
 	mkdir -p "$n_install_dir"
@@ -129,22 +128,28 @@ ynh_install_nodejs () {
 	# Build the update script and set the cronjob
 	ynh_cron_upgrade_node
 
-	ynh_use_nodejs
+#	ynh_use_nodejs
+}
+
+# print the path of node/npm binaries for a specific version of node
+ynh_get_nodejs_bindir () {
+	nodejs_version="$1"
+	dirname $(/opt/node_n/bin/n bin $nodejs_version)
 }
 
 ynh_remove_nodejs () {
-	ynh_use_nodejs
+#	ynh_use_nodejs
 
 	# Remove the line for this app
 	sed --in-place "/$YNH_APP_ID:$nodejs_version/d" "$n_install_dir/ynh_app_version"
 
-	# If none another app uses this version of nodejs, remove it.
+	# If no another app uses this version of nodejs, remove it.
 	if ! grep --quiet "$nodejs_version" "$n_install_dir/ynh_app_version"
 	then
 		n rm $nodejs_version
 	fi
 
-	# If none another app uses n, remove n
+	# If no another app uses n, remove n
 	if [ ! -s "$n_install_dir/ynh_app_version" ]
 	then
 		ynh_secure_remove "$n_install_dir"
@@ -307,15 +312,15 @@ ynh_add_fail2ban_config () {
    failregex=$2
    max_retry=${3:-3}
    ports=${4:-http,https}
-   
+
   test -n "$logpath" || ynh_die "ynh_add_fail2ban_config expects a logfile path as first argument and received nothing."
   test -n "$failregex" || ynh_die "ynh_add_fail2ban_config expects a failure regex as second argument and received nothing."
-  
+
   finalfail2banjailconf="/etc/fail2ban/jail.d/$app.conf"
   finalfail2banfilterconf="/etc/fail2ban/filter.d/$app.conf"
   ynh_backup_if_checksum_is_different "$finalfail2banjailconf" 1
   ynh_backup_if_checksum_is_different "$finalfail2banfilterconf" 1
-  
+
   sudo tee $finalfail2banjailconf <<EOF
 [$app]
 enabled = true
@@ -335,7 +340,7 @@ EOF
 
   ynh_store_file_checksum "$finalfail2banjailconf"
   ynh_store_file_checksum "$finalfail2banfilterconf"
-  
+
   systemctl restart fail2ban
   local fail2ban_error="$(journalctl -u fail2ban | tail -n50 | grep "WARNING.*$app.*")"
   if [ -n "$fail2ban_error" ]

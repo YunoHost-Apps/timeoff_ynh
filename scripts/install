@@ -108,8 +108,8 @@ ynh_use_logrotate
 #=================================================
 
 # Install dependencies and proceed with the installation
-ynh_use_nodejs
-(cd $final_path && npm install --production > $install_log 2>&1)
+nodedir=$(ynh_get_nodejs_bindir $nodejs_version)
+(cd $final_path && PATH=$nodedir:$PATH npm install --production > $install_log 2>&1)
 
 #=================================================
 # CONFIGURE
@@ -135,8 +135,8 @@ chmod 600 "$final_path/config/db.json"	# Restrict access to db.json
 # SETUP SYSTEMD
 #=================================================
 
-ynh_replace_string "__NODEJS__" "$nodejs_use_version" "../conf/systemd.service"
-ynh_replace_string "__ENV_PATH__" "$PATH" "../conf/systemd.service"
+#ynh_replace_string "__NODEJS__" "$nodejs_use_version" "../conf/systemd.service"
+ynh_replace_string "__NODE_DIR__" "$nodedir" "../conf/systemd.service"
 ynh_replace_string "__PORT__" "$port" "../conf/systemd.service"
 ynh_replace_string "__FINAL_PATH__" "$final_path" "../conf/systemd.service"
 ynh_add_systemd_config
@@ -144,6 +144,8 @@ ynh_add_systemd_config
 #=================================================
 # ENABLE SERVICE IN ADMIN PANEL
 #=================================================
+
+systemctl start $app.service
 
 # Add service to YunoHost monitoring panel
 yunohost service add $app

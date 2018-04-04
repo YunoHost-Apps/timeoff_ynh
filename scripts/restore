@@ -89,11 +89,11 @@ ynh_restore_file "/etc/logrotate.d/$app"
 ynh_install_nodejs $nodejs_version
 
 #=================================================
-# INSTALL ETHERPAD DEPENDENCIES
+# INSTALL DEPENDENCIES
 #=================================================
-
-ynh_use_nodejs
-npm cache clean
+nodedir=$(ynh_get_nodejs_bindir $nodejs_version)
+PATH=$nodedir:$PATH npm cache clean
+PATH=$nodedir:$PATH npm update
 
 #=================================================
 # ENABLE SERVICE IN ADMIN PANEL
@@ -108,6 +108,7 @@ yunohost service add $app --log "/var/log/$app/timeoff.log"
 ynh_restore_file "/etc/systemd/system/$app.service"
 ## Démarrage auto du service
 systemctl enable $app.service
+systemctl start $app.service
 
 #=================================================
 # RESTORE FAIL2BAN CONFIGURATION
