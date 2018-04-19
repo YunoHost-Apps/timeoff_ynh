@@ -35,8 +35,8 @@
 				"name": "path",
 				"type": "path",
 				"ask": {
-					"en": "Choose a path for Timeoff Management",
-					"fr": "Choisissez un chemin pour Timeoff Management"
+					"en": "Choose a path for Timeoff Management, only / is supported",
+					"fr": "Choisissez un chemin pour Timeoff Management, seulement / est supporté pour l'instant"
 				},
 				"example": "/timeoff",
 				"default": "/timeoff"
