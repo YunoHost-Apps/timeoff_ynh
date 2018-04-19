@@ -38,8 +38,8 @@
 					"en": "Choose a path for Timeoff Management, only / is supported",
 					"fr": "Choisissez un chemin pour Timeoff Management, seulement / est supporté pour l'instant"
 				},
-				"example": "/timeoff",
-				"default": "/timeoff"
+				"example": "/",
+				"default": "/"
 			}
 		]
 	}
