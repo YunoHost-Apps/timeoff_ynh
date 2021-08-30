@@ -17,6 +17,10 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 **Démo :** https://demo.example.com
 
+## Captures d'écran
+
+![](./doc/screenshots/smartmockups_kkjk5hh4-p-2000.png)
+
 ## Documentations et ressources
 
 * Site officiel de l'app : https://timeoff.management/
