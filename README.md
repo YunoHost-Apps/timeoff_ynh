@@ -21,6 +21,10 @@ Web application for managing employee absences
 
 **Demo:** https://demo.example.com
 
+## Screenshots
+
+![](./doc/screenshots/smartmockups_kkjk5hh4-p-2000.png)
+
 ## Documentation and resources
 
 * Official app website: https://timeoff.management/
