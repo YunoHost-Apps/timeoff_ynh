@@ -8,17 +8,11 @@
 
 source _common.sh
 source /usr/share/yunohost/helpers
-# Load common variables for all scripts.
-source _variables
 
 #=================================================
 # MANAGE FAILURE OF THE SCRIPT
 #=================================================
 
-ynh_clean_setup () {
-# Nettoyage des résidus d'installation non pris en charge par le script remove.
-	ynh_clean_check_starting
-}
 ynh_abort_if_errors	# Active trap pour arrêter le script si une erreur est détectée.
 
 #=================================================
@@ -34,16 +28,14 @@ app=$YNH_APP_INSTANCE_NAME
 # CHECK IF THE APP CAN BE INSTALLED WITH THIS ARGS
 #=================================================
 
+ynh_script_progression --message="Validating installation parameters..."
+
 final_path=/var/www/$app
-test ! -e "$final_path" || ynh_die "This path already contains a folder"
+config_path=/home/yunohost.app/$app
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
 
-# Normalize the url path syntax
-path_url=$(ynh_normalize_url_path $path_url)
-
-# Check web path availability
-ynh_webpath_available $domain $path_url
 # Register (book) web path
-ynh_webpath_register $app $domain $path_url
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
