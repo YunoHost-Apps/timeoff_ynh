@@ -1,6 +1,18 @@
 {
   "production": {
     "dialect": "sqlite",
-    "storage": "./db.production.sqlite"
+    "storage": "./db.production.sqlite",
+    "logging": false
   }
 }
+
+
+/*{
+  "production": {
+    "username": "__DB_NAME__",
+    "password": "__DB_PWD__",
+    "database": "__DB_NAME__",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}*/
