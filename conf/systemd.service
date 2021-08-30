@@ -7,8 +7,9 @@ Type=simple
 User=__APP__
 Group=__APP__
 Environment="PORT=__PORT__"
+Environment="PATH=__ENV_PATH__"
 Environment="NODE_ENV=production"
-WorkingDirectory=__FINAL_PATH__
+WorkingDirectory=__FINALPATH__/
 ExecStart=__NODE_DIR__/node bin/wwww
 Restart=always
 

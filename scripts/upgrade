@@ -1,46 +1,41 @@
 #!/bin/bash
 
 #=================================================
-# GENERIC STARTING
+# GENERIC START
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
 
 source _common.sh
 source /usr/share/yunohost/helpers
-# Load common variables for all scripts.
-source _variables
 
 #=================================================
 # LOAD SETTINGS
 #=================================================
+ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_app_setting_get $app path)
-final_path=$(ynh_app_setting_get $app final_path)
-port=$(ynh_app_setting_get $app port)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+port=$(ynh_app_setting_get --app=$app --key=port)
 
 #=================================================
 # CHECK VERSION
 #=================================================
 
-# Wait for etherpad to be fully started
-# ynh_check_starting "You can access your Etherpad instance at" "/var/log/$app/etherpad.log" "120"
-
-ynh_abort_if_up_to_date
+upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
-	# Cleanup installatioNettoyage des résidus d'installation non pris en charge par le script remove.
 	ynh_clean_check_starting
-
 	# restore it if the upgrade fails
 	ynh_restore_upgradebackup
 }
@@ -48,75 +43,86 @@ ynh_clean_setup () {
 ynh_abort_if_errors
 
 #=================================================
-# STOP ETHERPAD
+# ENSURE DOWNWARD COMPATIBILITY
 #=================================================
+ynh_script_progression --message="Ensuring downward compatibility..."
 
-systemctl stop $app
+# If final_path doesn't exist, create it
+if [ -z "$final_path" ]; then
+	final_path=/var/www/$app
+	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+fi
+
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+
+	ynh_app_setting_delete --app=$app --key=is_public
+fi
 
 #=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Stopping a systemd service..."
+
+ynh_systemd_action --service_name=$app --action=stop --log_path=systemd
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-ynh_setup_source "$final_path"	# Download, check integrity and uncompress the source from app.src
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	ynh_script_progression --message="Upgrading source files..."
+
+	ynh_secure_remove --file=$final_path
+	# Download, check integrity, uncompress and patch the source from app.src
+	ynh_setup_source --dest_dir="$final_path"
+fi
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
 
-ynh_replace_string "__PATH__/" "${path_url%/}/" "../conf/nginx.conf"
+# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
-# UPGRADE NODEJS
+# UPGRADE DEPENDENCIES
 #=================================================
+ynh_script_progression --message="Upgrading dependencies..."
 
-ynh_install_nodejs $nodejs_version
+# Install Nodejs
+ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
 # UPGRADE NPM MODULES
 #=================================================
-nodedir=$(ynh_get_nodejs_bindir $nodejs_version)
-PATH=$nodedir:$PATH npm cache clean
-PATH=$nodedir:$PATH npm update
+
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	ynh_script_progression --message="Upgrading the lounge..."
+	pushd $final_path
+		ynh_use_nodejs
+		ynh_exec_warn_less NODE_ENV=production npm cache clean
+		ynh_exec_warn_less NODE_ENV=production npm update
+	popd
+fi
 
 #=================================================
-# SPECIFIC UPGRADE
+# CONFIGURE
 #=================================================
-# CONFIGURE ETHERPAD
-#=================================================
-ynh_backup_if_checksum_is_different "$final_path/config/app.json"
-ynh_backup_if_checksum_is_different "$final_path/config/db.json"
+ynh_script_progression --message="Modifying a config file..."
 
-cp ../conf/app.json "$final_path/config/app.json"
-ynh_replace_string "__DOMAIN__" "$domain" "$final_path/config/app.json"
-
-cp ../conf/db.json "$final_path/config/db.json"
-
-ynh_store_file_checksum "$final_path/config/app.json"
-ynh_store_file_checksum "$final_path/config/db.json"
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-
-ynh_system_user_create $app $final_path	# Create the dedicated user, if it doesn't exist
-
-#=================================================
-# SECURING FILES AND DIRECTORIES
-#=================================================
-
-# Set files ownership to etherpad
-chown -R $app: $final_path
-chmod 600 "$final_path/config/db.json"	# Restrict access to credentials.json
-chown $app -R /var/log/$app/timeoff.log
-
-#=================================================
-# UPGRADE FAIL2BAN
-#=================================================
-
-# ynh_add_fail2ban_config "/var/log/nginx/$domain-access.log" "<HOST> .* \"POST /mypads/api/auth/login HTTP/1.1\" 400" 5
+ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
+ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
 
 #=================================================
 # SETUP LOGROTATE
@@ -127,17 +133,37 @@ ynh_use_logrotate --non-append
 #=================================================
 # SETUP SYSTEMD
 #=================================================
+ynh_script_progression --message="Upgrading systemd configuration..."
 
-ynh_replace_string "__NODEJS__" "$nodejs_use_version" "../conf/systemd.service"
-ynh_replace_string "__ENV_PATH__" "$PATH" "../conf/systemd.service"
-ynh_replace_string "__PORT__" "$port" "../conf/systemd.service"
-ynh_replace_string "__FINAL_PATH__" "$final_path" "../conf/systemd.service"
+ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
+
 ynh_add_systemd_config
 
-systemctl restart $app.service
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+ynh_script_progression --message="Integrating service in YunoHost..."
+
+yunohost service add $app --description="Client Web IRC" --log="/var/log/$app/$app.log"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Starting a systemd service..."
+
+ynh_systemd_action --service_name=$app --action=start --log_path=systemd
 
 #=================================================
 # RELOAD NGINX
 #=================================================
+ynh_script_progression --message="Reloading NGINX web server..."
 
-systemctl reload nginx
+ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Upgrade of $app completed"
