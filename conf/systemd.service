@@ -10,7 +10,7 @@ Environment="PORT=__PORT__"
 Environment="PATH=__ENV_PATH__"
 Environment="NODE_ENV=production"
 WorkingDirectory=__FINALPATH__/
-ExecStart=__NODE_DIR__/node bin/wwww
+ExecStart=__FINALPATH__ start
 Restart=always
 
 [Install]
