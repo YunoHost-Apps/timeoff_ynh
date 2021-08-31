@@ -8,9 +8,9 @@
 
 /*{
   "production": {
-    "username": "__DB_NAME__",
-    "password": "__DB_PWD__",
-    "database": "__DB_NAME__",
+    "username": "",
+    "password": "",
+    "database": "",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
