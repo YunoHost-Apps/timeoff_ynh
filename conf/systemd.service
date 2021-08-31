@@ -10,7 +10,7 @@ Environment="PORT=__PORT__"
 Environment="PATH=__ENV_PATH__"
 Environment="NODE_ENV=production"
 WorkingDirectory=__FINALPATH__/
-ExecStart=__YNH_NODE__ start
+ExecStart=__YNH_NODE__  bin/wwww
 #start
 Restart=always
 
