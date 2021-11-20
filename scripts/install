@@ -136,7 +136,7 @@ ynh_script_progression --message="Installing TimeOff..."
 
 pushd $final_path
 	ynh_use_nodejs
- 	ynh_exec_warn_less NODE_ENV=production npm install -g npm
+ 	ynh_exec_as $app env $ynh_node_load_PATH npm install -g npm
 popd
 
 #=================================================
@@ -153,7 +153,7 @@ ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db
 ynh_script_progression --message="Configuring a systemd service..."
 
 ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
-ynh_replace_string --match_string="__YNH_NODE__" --replace_string="$ynh_node" --target_file="../conf/systemd.service"
+
 ynh_add_systemd_config
 
 #=================================================
