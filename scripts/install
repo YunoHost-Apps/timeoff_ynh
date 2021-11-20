@@ -136,7 +136,7 @@ ynh_script_progression --message="Installing TimeOff..."
 
 pushd $final_path
 	ynh_use_nodejs
- 	ynh_exec_as $app env $ynh_node_load_PATH npm install -g npm
+ 	ynh_exec_as npm install -g npm
 popd
 
 #=================================================
