@@ -12,7 +12,6 @@
         "website": "https://timeoff.management/",
         "demo": "https://demo.example.com",
         "admindoc": "https://timeoff.management/support/main-page.html",
-        "userdoc": "https://yunohost.org/apps",
         "code": "https://github.com/timeoff-management/timeoff-management-application"
     },
 	"license": "MIT",
