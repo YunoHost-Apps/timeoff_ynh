@@ -12,7 +12,6 @@
         "website": "https://timeoff.management/",
         "demo": "https://demo.example.com",
         "admindoc": "https://timeoff.management/support/main-page.html",
-        "userdoc": "https://yunohost.org/apps",
         "code": "https://github.com/timeoff-management/timeoff-management-application"
     },
 	"license": "MIT",
@@ -21,7 +20,7 @@
 		"email": "ju@paraiso.me"
 	},
 	"requirements": {
-		"yunohost": ">= 4.2.4"
+		"yunohost": ">= 4.3.0"
 	},
 	"multi_instance": false,
 	"services": [
@@ -31,8 +30,7 @@
 		"install" : [
 			{
 				"name": "domain",
-				"type": "domain",
-				"example": "example.com"
+				"type": "domain"
 			},
             {
                 "name": "is_public",

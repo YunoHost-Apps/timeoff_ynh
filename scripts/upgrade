@@ -113,8 +113,8 @@ then
 	ynh_script_progression --message="Upgrading the lounge..."
 	pushd $final_path
 		ynh_use_nodejs
-		ynh_exec_warn_less NODE_ENV=production npm cache clean
-		ynh_exec_warn_less NODE_ENV=production npm update
+		ynh_exec_warn_less $ynh_npm cache clean
+		ynh_exec_warn_less $ynh_npm update
 	popd
 fi
 

@@ -32,7 +32,6 @@ app=$YNH_APP_INSTANCE_NAME
 ynh_script_progression --message="Validating installation parameters..."
 
 final_path=/var/www/$app
-config_path=/home/yunohost.app/$app
 test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
 
 # Register (book) web path
@@ -106,6 +105,20 @@ chown -R $app:www-data "$final_path"
 #chmod -R +x "$final_path/bin"
 
 #=================================================
+# CREATE DATA DIRECTORY
+#=================================================
+ynh_script_progression --message="Creating a data directory..." --weight=1
+
+datadir=/home/yunohost.app/$app
+ynh_app_setting_set --app=$app --key=datadir --value=$datadir
+
+mkdir -p $datadir
+
+chmod 750 "$datadir"
+chmod -R o-rwx "$datadir"
+chown -R $app:www-data "$datadir"
+
+#=================================================
 # NGINX CONFIGURATION
 #=================================================
 ynh_script_progression --message="Configuring NGINX web server..."
@@ -136,7 +149,7 @@ ynh_script_progression --message="Installing TimeOff..."
 
 pushd $final_path
 	ynh_use_nodejs
- 	ynh_exec_warn_less NODE_ENV=production npm install -g npm
+ 	ynh_exec_warn_less $ynh_npm install
 popd
 
 #=================================================
@@ -153,7 +166,7 @@ ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db
 ynh_script_progression --message="Configuring a systemd service..."
 
 ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
-ynh_replace_string --match_string="__YNH_NODE__" --replace_string="$ynh_node" --target_file="../conf/systemd.service"
+
 ynh_add_systemd_config
 
 #=================================================
