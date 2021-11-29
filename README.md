@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Web application for managing employee absences
 
-**Shipped version:** 1.3.3~ynh1
+**Shipped version:** 1.4.0~ynh1
 
 **Demo:** https://demo.example.com
 
