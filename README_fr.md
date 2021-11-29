@@ -24,7 +24,6 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 ## Documentations et ressources
 
 * Site officiel de l'app : https://timeoff.management/
-* Documentation officielle utilisateur : https://yunohost.org/apps
 * Documentation officielle de l'admin : https://timeoff.management/support/main-page.html
 * Dépôt de code officiel de l'app : https://github.com/timeoff-management/timeoff-management-application
 * Documentation YunoHost pour cette app : https://yunohost.org/app_timeoff

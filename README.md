@@ -28,7 +28,6 @@ Web application for managing employee absences
 ## Documentation and resources
 
 * Official app website: https://timeoff.management/
-* Official user documentation: https://yunohost.org/apps
 * Official admin documentation: https://timeoff.management/support/main-page.html
 * Upstream app code repository: https://github.com/timeoff-management/timeoff-management-application
 * YunoHost documentation for this app: https://yunohost.org/app_timeoff
