@@ -99,6 +99,8 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."
 
+ynh_install_app_dependencies $pkg_dependencies
+
 # Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
@@ -116,8 +118,6 @@ then
 	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run-script db-update 2>/dev/null
 	popd
 fi
-
-
 
 #=================================================
 # CONFIGURE
