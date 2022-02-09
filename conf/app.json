@@ -16,6 +16,6 @@
   "ga_analytics_on" : false,
   "crypto_secret" : "__KEY__",
   "application_domain" : "http://__DOMAIN__",
-  "promotion_website_domain" : "__DOMAIN__",
+  "promotion_website_domain" : "http://__DOMAIN__",
   "locale_code_for_sorting": "en"
 }
