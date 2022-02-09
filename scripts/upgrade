@@ -79,9 +79,8 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..."
 
-	ynh_secure_remove --file=$final_path
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$final_path" --feep="$final_path/config/app.json $final_path/config/db.json"
 fi
 
 chmod 750 "$final_path"
