@@ -63,11 +63,6 @@ ynh_script_progression --message="Installing dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
 
-#=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing dependencies..."
-
 # Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
@@ -101,19 +96,6 @@ ynh_script_progression --message="Configuring NGINX web server..."
 ynh_add_nginx_config
 
 #=================================================
-# SPECIFIC SETUP
-#=================================================
-# HANDLE LOG FILES AND LOGROTATE
-#=================================================
-
-# Create log directory
-mkdir -p /var/log/$app
-chown $app -R /var/log/$app
-
-# Setup logrotate
-ynh_use_logrotate
-
-#=================================================
 # INSTALL
 #=================================================
 ynh_script_progression --message="Installing TimeOff..."
@@ -130,6 +112,9 @@ ynh_script_progression --message="Modifying a config file..."
 
 ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
 ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
+
+chmod 400 "$final_path/config/db.json"
+chown $app:$app "$final_path/config/db.json"
 
 #=================================================
 # SETUP SYSTEMD
