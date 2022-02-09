@@ -106,6 +106,7 @@ fi
 #=================================================
 # SPECIFIC MODIFICATIONS
 #=================================================
+ynh_script_progression --message="Modifying a config file..."
 
 domain="$new_domain"
 ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
