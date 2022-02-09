@@ -76,13 +76,6 @@ ynh_script_progression --message="Removing NGINX web server configuration..."
 ynh_remove_nginx_config
 
 #=================================================
-# REMOVE THE LOGROTATE CONFIG
-#=================================================
-ynh_script_progression --message="Removing logrotate configuration..."
-
-ynh_remove_logrotate
-
-#=================================================
 # GENERIC FINALIZATION
 #=================================================
 # REMOVE DEDICATED USER
