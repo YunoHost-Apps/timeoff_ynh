@@ -4,7 +4,7 @@
   "application_sender_email" : "timeoff@__DOMAIN__",
   "email_transporter" : {
     "host" : "localhost",
-    "port" : 25,
+    "port" : 25
   },
   "ga_analytics_on" : false,
   "crypto_secret" : "!2~`HswpPPLa22+=±§sdq qwe,appp qwwokDF_",
