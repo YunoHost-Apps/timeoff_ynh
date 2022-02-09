@@ -26,8 +26,6 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$db_name
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -73,31 +71,6 @@ ynh_script_progression --message="Reinstalling dependencies..."
 
 # Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
-
-#=================================================
-# SPECIFIC RESTORE
-#=================================================
-# HANDLE LOG FILES AND LOGROTATE
-#=================================================
-
-mkdir -p /var/log/$app
-touch /var/log/$app/timeoff.log
-install_log=/var/log/$app/installation.log
-touch $install_log
-chown $app -R /var/log/$app
-chown admin -R $install_log
-
-# Restore logrotate configuration
-ynh_restore_file "/etc/logrotate.d/$app"
-
-#=================================================
-# RESTORE THE MYSQL DATABASE
-#=================================================
-ynh_script_progression --message="Restoring the MySQL database..."
-
-db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
-ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
 
 #=================================================
 # RESTORE SYSTEMD
