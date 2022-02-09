@@ -134,9 +134,6 @@ ynh_add_nginx_config
 
 # Create log directory
 mkdir -p /var/log/$app
-touch /var/log/$app/installation.log
-install_log=/var/log/$app/installation.log
-touch $install_log
 chown $app -R /var/log/$app
 
 # Setup logrotate
