@@ -6,6 +6,13 @@
     "host" : "localhost",
     "port" : 25
   },
+  "sessionStore": {
+    "useRedis": true,
+    "redisConnectionConfiguration": {
+      "host": "localhost",
+      "port": 6379
+    }
+  },
   "ga_analytics_on" : false,
   "crypto_secret" : "__KEY__",
   "application_domain" : "http://__DOMAIN__",
