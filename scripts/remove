@@ -49,12 +49,6 @@ ynh_script_progression --message="Removing dependencies..."
 # Remove metapackage and its dependencies
 ynh_remove_app_dependencies
 
-#=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Removing dependencies..."
-
-# Remove NodeJS
 ynh_remove_nodejs
 
 #=================================================
@@ -72,13 +66,6 @@ ynh_script_progression --message="Removing NGINX web server configuration..."
 
 # Remove the dedicated NGINX config
 ynh_remove_nginx_config
-
-#=================================================
-# REMOVE THE LOGROTATE CONFIG
-#=================================================
-ynh_script_progression --message="Removing logrotate configuration..."
-
-ynh_remove_logrotate
 
 #=================================================
 # GENERIC FINALIZATION
