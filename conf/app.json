@@ -14,7 +14,7 @@
     }
   },
   "ga_analytics_on" : false,
-  "crypto_secret" : "!2~`HswpPPLa22+=±§sdq qwe,appp qwwokDF_",
+  "crypto_secret" : "__KEY__",
   "application_domain" : "http://__DOMAIN__",
   "promotion_website_domain" : "http://__DOMAIN__",
   "locale_code_for_sorting": "__LANGUAGE__"
