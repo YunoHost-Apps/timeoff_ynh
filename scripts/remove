@@ -19,6 +19,8 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 port=$(ynh_app_setting_get --app=$app --key=port)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
 
 #=================================================
 # STANDARD REMOVE
@@ -42,12 +44,12 @@ ynh_script_progression --message="Stopping and removing the systemd service..."
 ynh_remove_systemd_config
 
 #=================================================
-# REMOVE DEPENDENCIES
+# REMOVE THE MYSQL DATABASE
 #=================================================
-ynh_script_progression --message="Removing dependencies..."
+ynh_script_progression --message="Removing the MySQL database..."
 
-# Remove metapackage and its dependencies
-ynh_remove_app_dependencies
+# Remove a database if it exists, along with the associated user
+ynh_mysql_remove_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
 # REMOVE DEPENDENCIES
