@@ -11,11 +11,11 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-
+Web application for managing employee absences
 
 **Version incluse :** 1.4.0~ynh1
 
-**Démo :** https://demo.example.com
+
 
 ## Captures d'écran
 
