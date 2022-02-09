@@ -19,7 +19,7 @@ Web application for managing employee absences
 
 **Shipped version:** 1.4.0~ynh1
 
-**Demo:** https://demo.example.com
+
 
 ## Screenshots
 
