@@ -1,14 +1,14 @@
 {
   "allow_create_new_accounts" : true,
-  "send_emails"              : false,
+  "send_emails" : false,
   "application_sender_email" : "timeoff@__DOMAIN__",
   "email_transporter" : {
     "host" : "localhost",
-    "port" : 25,
+    "port" : 25
   },
   "ga_analytics_on" : false,
   "crypto_secret" : "!2~`HswpPPLa22+=±§sdq qwe,appp qwwokDF_",
   "application_domain" : "http://__DOMAIN__",
   "promotion_website_domain" : "http://timeoff.management",
-  "locale_code_for_sorting": "__LANGUAGE__"
+  "locale_code_for_sorting": "en"
 }

@@ -21,7 +21,6 @@ ynh_abort_if_errors	# Active trap pour arrêter le script si une erreur est dét
 
 domain=$YNH_APP_ARG_DOMAIN
 path_url="/"
-language=$YNH_APP_ARG_LANGUAGE
 is_public=$YNH_APP_ARG_IS_PUBLIC
 
 app=$YNH_APP_INSTANCE_NAME
@@ -44,7 +43,6 @@ ynh_script_progression --message="Storing installation settings..."
 
 ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
-ynh_app_setting_set --app=$app --key=language --value=$language
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -81,16 +79,6 @@ ynh_script_progression --message="Configuring system user..."
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# CREATE A MYSQL DATABASE
-#=================================================
-# ynh_script_progression --message="Creating a MySQL database..."
-
-# db_name=$(ynh_sanitize_dbid --db_name=$app)
-# db_user=$db_name
-# ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-# ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..."
@@ -102,21 +90,6 @@ ynh_setup_source --dest_dir=$final_path
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
-#chmod -R +x "$final_path/bin"
-
-#=================================================
-# CREATE DATA DIRECTORY
-#=================================================
-ynh_script_progression --message="Creating a data directory..." --weight=1
-
-datadir=/home/yunohost.app/$app
-ynh_app_setting_set --app=$app --key=datadir --value=$datadir
-
-mkdir -p $datadir
-
-chmod 750 "$datadir"
-chmod -R o-rwx "$datadir"
-chown -R $app:www-data "$datadir"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -125,22 +98,6 @@ ynh_script_progression --message="Configuring NGINX web server..."
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
-
-#=================================================
-# SPECIFIC SETUP
-#=================================================
-# HANDLE LOG FILES AND LOGROTATE
-#=================================================
-
-# Create log directory
-mkdir -p /var/log/$app
-touch /var/log/$app/installation.log
-install_log=/var/log/$app/installation.log
-touch $install_log
-chown $app -R /var/log/$app
-
-# Setup logrotate
-ynh_use_logrotate
 
 #=================================================
 # INSTALL
