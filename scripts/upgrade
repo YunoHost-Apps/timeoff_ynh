@@ -78,7 +78,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/config"
+	ynh_setup_source --dest_dir="$final_path"
 fi
 
 chmod 750 "$final_path"
@@ -113,6 +113,7 @@ then
 
 	pushd $final_path
 		ynh_use_nodejs
+		ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
 	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
 	 	#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run-script db-update --production 2>/dev/null
 	popd
@@ -121,10 +122,13 @@ fi
 #=================================================
 # CONFIGURE
 #=================================================
-# ynh_script_progression --message="Modifying a config file..."
+ynh_script_progression --message="Modifying a config file..."
 
-# ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
-# ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
+ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
+ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
+
+chmod 600 "$final_path/config/db.json"
+chown $app:$app "$final_path/config/db.json"
 
 #=================================================
 # SETUP SYSTEMD
