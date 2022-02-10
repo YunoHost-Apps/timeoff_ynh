@@ -109,7 +109,7 @@ ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_script_progression --message="Upgrading the lounge..."
+	ynh_script_progression --message="Upgrading TimeOff..."
 	pushd $final_path
 		ynh_use_nodejs
 		ynh_exec_warn_less $ynh_npm cache clean
@@ -130,8 +130,7 @@ ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db
 #=================================================
 ynh_script_progression --message="Upgrading systemd configuration..."
 
-ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
-
+env_path="$PATH"
 ynh_add_systemd_config
 
 #=================================================
