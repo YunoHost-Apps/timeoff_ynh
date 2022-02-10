@@ -78,7 +78,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/db.production.sqlite"
 fi
 
 chmod 750 "$final_path"
@@ -103,21 +103,6 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
-# UPGRADE NPM MODULES
-#=================================================
-
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Upgrading TimeOff..."
-	pushd $final_path
-		ynh_use_nodejs
-		ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
-	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
-	 	#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run-script db-update --production 2>/dev/null
-	popd
-fi
-
-#=================================================
 # CONFIGURE
 #=================================================
 ynh_script_progression --message="Modifying a config file..."
@@ -127,6 +112,19 @@ ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db
 
 chmod 600 "$final_path/config/db.json"
 chown $app:$app "$final_path/config/db.json"
+
+#=================================================
+# UPGRADE NPM MODULES
+#=================================================
+
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	ynh_script_progression --message="Upgrading TimeOff..."
+	pushd $final_path
+		ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
+	popd
+fi
 
 #=================================================
 # SETUP SYSTEMD
