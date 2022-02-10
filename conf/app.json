@@ -1,6 +1,6 @@
 {
   "allow_create_new_accounts" : true,
-  "send_emails"              : false,
+  "send_emails" : false,
   "application_sender_email" : "timeoff@__DOMAIN__",
   "email_transporter" : {
     "host" : "localhost",
@@ -16,6 +16,6 @@
   "ga_analytics_on" : false,
   "crypto_secret" : "__KEY__",
   "application_domain" : "http://__DOMAIN__",
-  "promotion_website_domain" : "http://__DOMAIN__",
+  "promotion_website_domain" : "http://timeoff.management",
   "locale_code_for_sorting": "en"
 }

@@ -32,12 +32,6 @@
 				"name": "domain",
 				"type": "domain"
 			},
-			{
-                "name": "path",
-                "type": "path",
-                "example": "/timeoff",
-                "default": "/timeoff"
-            },
             {
                 "name": "is_public",
                 "type": "boolean",
