@@ -2,7 +2,6 @@
 	; Manifest
 		domain="domain.tld"
 		path="/path"
-		language="fr"
 		is_public=1
 	; Checks
 		pkg_linter=1

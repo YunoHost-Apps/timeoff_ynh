@@ -5,12 +5,11 @@
 	"description": {
 		"en": "Web application for managing employee absences"
 	},
-	"version": "1.3.3~ynh1",
+	"version": "1.4.0~ynh1",
 	"url": "https://timeoff.management/",
 	"upstream": {
         "license": "MIT",
         "website": "https://timeoff.management/",
-        "demo": "https://demo.example.com",
         "admindoc": "https://timeoff.management/support/main-page.html",
         "code": "https://github.com/timeoff-management/timeoff-management-application"
     },

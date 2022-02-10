@@ -42,25 +42,12 @@ ynh_script_progression --message="Stopping and removing the systemd service..."
 ynh_remove_systemd_config
 
 #=================================================
-# REMOVE THE MYSQL DATABASE
-#=================================================
-# ynh_script_progression --message="Removing the MySQL database..."
-
-# # Remove a database if it exists, along with the associated user
-# ynh_mysql_remove_db --db_user=$db_user --db_name=$db_name
-
-#=================================================
 # REMOVE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Removing dependencies..."
 
 # Remove metapackage and its dependencies
 ynh_remove_app_dependencies
-
-#=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Removing dependencies..."
 
 # Remove NodeJS
 ynh_remove_nodejs
@@ -82,12 +69,6 @@ ynh_script_progression --message="Removing NGINX web server configuration..."
 ynh_remove_nginx_config
 
 #=================================================
-# REMOVE THE LOGROTATE CONFIG
-#=================================================
-
-ynh_remove_logrotate	# Remove the app-specific logrotate config
-
-#=================================================
 # GENERIC FINALIZATION
 #=================================================
 # REMOVE DEDICATED USER
@@ -102,4 +83,3 @@ ynh_system_user_delete --username=$app
 #=================================================
 
 ynh_script_progression --message="Removal of $app completed"
-
