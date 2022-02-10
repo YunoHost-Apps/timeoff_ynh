@@ -16,6 +16,7 @@ Web application for managing employee absences
 **Version incluse :** 1.4.0~ynh1
 
 
+
 ## Captures d'écran
 
 ![](./doc/screenshots/smartmockups_kkjk5hh4-p-2000.png)
