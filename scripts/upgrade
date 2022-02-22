@@ -121,7 +121,7 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading TimeOff..."
 	pushd $final_path
-		ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+		#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
 	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
 	popd
 fi
