@@ -67,7 +67,7 @@ fi
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..."
 
-ynh_systemd_action --service_name=$app --action=stop --log_path=systemd
+ynh_systemd_action --service_name=$app --action=stop --log_path="systemd"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -78,7 +78,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/db.production.sqlite"
+	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/db.production.sqlite $final_path/config/app.json $final_path/config/db.json"
 fi
 
 chmod 750 "$final_path"
@@ -105,13 +105,13 @@ ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 #=================================================
 # CONFIGURE
 #=================================================
-ynh_script_progression --message="Modifying a config file..."
+# ynh_script_progression --message="Modifying a config file..."
 
-ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
-ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
+# ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
+# ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
 
-chmod 600 "$final_path/config/db.json"
-chown $app:$app "$final_path/config/db.json"
+# chmod 600 "$final_path/config/db.json"
+# chown $app:$app "$final_path/config/db.json"
 
 #=================================================
 # UPGRADE NPM MODULES
@@ -148,7 +148,7 @@ yunohost service add $app --description="Manage employee absences" --log="/var/l
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action=start --log_path=systemd
+ynh_systemd_action --service_name=$app --action=start --log_path="systemd"
 
 #=================================================
 # RELOAD NGINX
