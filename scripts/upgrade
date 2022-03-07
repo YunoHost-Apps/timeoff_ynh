@@ -78,7 +78,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/db.production.sqlite $final_path/config/app.json $final_path/config/db.json"
+	ynh_setup_source --dest_dir="$final_path" --keep="db.production.sqlite config/app.json config/db.json"
 fi
 
 chmod 750 "$final_path"
@@ -112,9 +112,10 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading TimeOff..."
 	pushd $final_path
-		#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+		ynh_use_nodejs
 	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
-	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run-script db-update
+		ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+	 	ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production $ynh_npm run-script db-update
 	popd
 fi
 
