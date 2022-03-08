@@ -114,7 +114,7 @@ then
 	pushd $final_path
 		ynh_use_nodejs
 	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
-		ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+		#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
 	 	ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production $ynh_npm run-script db-update
 	popd
 fi
