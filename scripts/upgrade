@@ -36,11 +36,20 @@ ynh_script_progression --message="Backing up the app before upgrading (may take 
 ynh_backup_before_upgrade
 ynh_clean_setup () {
 	ynh_clean_check_starting
-	# restore it if the upgrade fails
+	# Restore it if the upgrade fails
 	ynh_restore_upgradebackup
 }
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
+
+#=================================================
+# STANDARD UPGRADE STEPS
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Stopping a systemd service..."
+
+ynh_systemd_action --service_name=$app --action="stop" --log_path="systemd"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -61,15 +70,6 @@ if ynh_legacy_permissions_exists; then
 fi
 
 #=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
-# STOP SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Stopping a systemd service..."
-
-ynh_systemd_action --service_name=$app --action=stop --log_path="systemd"
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
@@ -78,7 +78,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/db.production.sqlite $final_path/config/app.json $final_path/config/db.json"
+	ynh_setup_source --dest_dir="$final_path" --keep="db.production.sqlite config/app.json config/db.json"
 fi
 
 chmod 750 "$final_path"
@@ -103,16 +103,7 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
-# CONFIGURE
-#=================================================
-# ynh_script_progression --message="Modifying a config file..."
-
-# ynh_add_config --template="../conf/app.json" --destination="$final_path/config/app.json"
-# ynh_add_config --template="../conf/db.json" --destination="$final_path/config/db.json"
-
-# chmod 600 "$final_path/config/db.json"
-# chown $app:$app "$final_path/config/db.json"
-
+# SPECIFIC UPGRADE
 #=================================================
 # UPGRADE NPM MODULES
 #=================================================
@@ -121,9 +112,10 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading TimeOff..."
 	pushd $final_path
-		#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+		ynh_use_nodejs
 	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
-	 	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run-script db-update
+		#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+	 	ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production $ynh_npm run-script db-update
 	popd
 fi
 
@@ -138,7 +130,7 @@ ynh_add_systemd_config
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# SECURE FILES AND DIRECTORIES
+# INTEGRATE SERVICE IN YUNOHOST
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
@@ -149,7 +141,7 @@ yunohost service add $app --description="Manage employee absences" --log="/var/l
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action=start --log_path="systemd"
+ynh_systemd_action --service_name=$app --action="start" --log_path="systemd"
 
 #=================================================
 # RELOAD NGINX
