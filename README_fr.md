@@ -11,9 +11,9 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-Web application for managing employee absences
+Application Web de gestion des absences des employés
 
-**Version incluse :** 1.4.0~ynh1
+**Version incluse :** 1.4.0~ynh2
 
 
 
