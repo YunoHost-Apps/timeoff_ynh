@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Timeoff for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![Working status](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)  
 [![Install Timeoff with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=timeoff)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -17,31 +17,30 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Web application for managing employee absences
 
-**Shipped version:** 1.4.0~ynh2
-
-
+**Shipped version:** 1.4.2~ynh1
 
 ## Screenshots
 
-![](./doc/screenshots/smartmockups_kkjk5hh4-p-2000.png)
+![Screenshot of Timeoff](./doc/screenshots/smartmockups_kkjk5hh4-p-2000.png)
 
 ## Documentation and resources
 
-* Official app website: https://timeoff.management/
-* Official admin documentation: https://timeoff.management/support/main-page.html
-* Upstream app code repository: https://github.com/timeoff-management/timeoff-management-application
-* YunoHost documentation for this app: https://yunohost.org/app_timeoff
-* Report a bug: https://github.com/YunoHost-Apps/timeoff_ynh/issues
+* Official app website: <https://timeoff.management/>
+* Official admin documentation: <https://timeoff.management/support/main-page.html>
+* Upstream app code repository: <https://github.com/timeoff-management/timeoff-management-application>
+* YunoHost documentation for this app: <https://yunohost.org/app_timeoff>
+* Report a bug: <https://github.com/YunoHost-Apps/timeoff_ynh/issues>
 
 ## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
-```
+
+``` bash
 sudo yunohost app install https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade timeoff -u https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing --debug
 ```
 
-**More info regarding app packaging:** https://yunohost.org/packaging_apps
+**More info regarding app packaging:** <https://yunohost.org/packaging_apps>
