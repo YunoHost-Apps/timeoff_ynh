@@ -6,7 +6,7 @@
 		"en": "Web application for managing employee absences",
 		"fr": "Application Web de gestion des absences des employés"
 	},
-	"version": "1.4.0~ynh2",
+	"version": "1.4.2~ynh1",
 	"url": "https://timeoff.management/",
 	"upstream": {
         "license": "MIT",
@@ -20,7 +20,7 @@
 		"email": "ju@paraiso.me"
 	},
 	"requirements": {
-		"yunohost": ">= 4.3.0"
+		"yunohost": ">= 11.0.9"
 	},
 	"multi_instance": false,
 	"services": [
