@@ -5,7 +5,7 @@
 #=================================================
 
 # nodejs version
-nodejs_version=18
+nodejs_version=13
 
 # dependencies used by the app
 pkg_dependencies="sqlite3"
