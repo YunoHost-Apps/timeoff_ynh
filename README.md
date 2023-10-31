@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Timeoff for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![Working status](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![Working status](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)
+
 [![Install Timeoff with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=timeoff)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -28,7 +29,7 @@ Web application for managing employee absences
 * Official app website: <https://timeoff.management/>
 * Official admin documentation: <https://timeoff.management/support/main-page.html>
 * Upstream app code repository: <https://github.com/timeoff-management/timeoff-management-application>
-* YunoHost documentation for this app: <https://yunohost.org/app_timeoff>
+* YunoHost Store: <https://apps.yunohost.org/app/timeoff>
 * Report a bug: <https://github.com/YunoHost-Apps/timeoff_ynh/issues>
 
 ## Developer info
