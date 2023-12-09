@@ -61,7 +61,7 @@ ynh_script_progression --message="Installing $app..."
 
 pushd $install_dir
 	ynh_use_nodejs
-	ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install 2>/dev/null
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install
 	#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
 popd
 
