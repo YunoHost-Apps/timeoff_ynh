@@ -51,3 +51,5 @@ ram.runtime = "50M"
 
     [resources.apt]
     packages = "sqlite3"
+    
+    [resources.ports]
