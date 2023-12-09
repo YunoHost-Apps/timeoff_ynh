@@ -9,7 +9,7 @@ Group=__APP__
 Environment="PORT=__PORT__"
 Environment="PATH=__ENV_PATH__"
 Environment="NODE_ENV=production"
-WorkingDirectory=__FINALPATH__/
+WorkingDirectory=__INSTALL_DIR__/
 ExecStart=__YNH_NODE__ bin/wwww
 Restart=always
 
