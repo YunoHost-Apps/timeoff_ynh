@@ -40,7 +40,7 @@ ram.runtime = "50M"
         [resources.sources.main]
         url = "https://github.com/timeoff-management/timeoff-management-application/archive/refs/tags/1.4.2.tar.gz"
         sha256 = "b0a5f7e88c39a0ae43e5c53c50efb82e9a78add1954f7c0a60ae91c25bbf608f"
-
+        autoupdate.strategy = "latest_github_release"
 
     [resources.system_user]
 
