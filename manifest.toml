@@ -5,7 +5,7 @@ name = "Timeoff"
 description.en = "Web application for managing employee absences"
 description.fr = "Application Web de gestion des absences des employés"
 
-version = "1.4.2~ynh1"
+version = "1.4.5~ynh1"
 
 maintainers = ["Julien Malik"]
 
@@ -38,8 +38,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://github.com/timeoff-management/timeoff-management-application/archive/refs/tags/1.4.2.tar.gz"
-        sha256 = "b0a5f7e88c39a0ae43e5c53c50efb82e9a78add1954f7c0a60ae91c25bbf608f"
+        url = "https://github.com/timeoff-management/timeoff-management-application/archive/refs/tags/1.4.5.tar.gz"
+        sha256 = "8280eb54b2ea4d419b4d8a5d81ef498a04b2a5bd78bd68ca94ac83b8e8f29eed"
         autoupdate.strategy = "latest_github_release"
 
     [resources.system_user]
