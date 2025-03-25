@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Timeoff YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/timeoff)](https://ci-apps.yunohost.org/ci/apps/timeoff/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/timeoff)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/timeoff)
 
 [![Instalatu Timeoff YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=timeoff)
 
@@ -16,9 +18,10 @@ EZ editatu eskuz.
 
 ## Aurreikuspena
 
+Web application for managing employee absences.
 
 
-**Paketatutako bertsioa:** 1.4.5~ynh1
+**Paketatutako bertsioa:** 1.4.5~ynh2
 
 ## Pantaila-argazkiak
 
@@ -36,7 +39,7 @@ EZ editatu eskuz.
 
 Bidali `pull request`a [`testing` abarrera](https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing).
 
-`testing` abarra probatzeko, ondorengoa egin:
+`testing` abarra probatzeko, honakoa egin:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing --debug
