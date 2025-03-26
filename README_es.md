@@ -3,9 +3,11 @@ Este archivo README esta generado automaticamente<https://github.com/YunoHost/ap
 No se debe editar a mano.
 -->
 
-# Timeoff para Yunohost
+# Timeoff para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/timeoff)](https://ci-apps.yunohost.org/ci/apps/timeoff/)
+![Estado funcional](https://apps.yunohost.org/badge/state/timeoff)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/timeoff)
 
 [![Instalar Timeoff con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=timeoff)
 
@@ -16,9 +18,10 @@ No se debe editar a mano.
 
 ## Descripción general
 
+Web application for managing employee absences.
 
 
-**Versión actual:** 1.4.5~ynh1
+**Versión actual:** 1.4.5~ynh2
 
 ## Capturas
 
@@ -34,7 +37,7 @@ No se debe editar a mano.
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/timeoff_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 

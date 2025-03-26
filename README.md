@@ -5,7 +5,9 @@ It shall NOT be edited by hand.
 
 # Timeoff for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![Working status](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)
+[![Integration level](https://apps.yunohost.org/badge/integration/timeoff)](https://ci-apps.yunohost.org/ci/apps/timeoff/)
+![Working status](https://apps.yunohost.org/badge/state/timeoff)
+![Maintenance status](https://apps.yunohost.org/badge/maintained/timeoff)
 
 [![Install Timeoff with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=timeoff)
 
@@ -16,9 +18,10 @@ It shall NOT be edited by hand.
 
 ## Overview
 
-Web application for managing employee absences
+Web application for managing employee absences.
 
-**Shipped version:** 1.4.5~ynh1
+
+**Shipped version:** 1.4.5~ynh2
 
 ## Screenshots
 
