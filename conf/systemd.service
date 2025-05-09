@@ -1,5 +1,5 @@
 [Unit]
-Description=Timeoff management
+Description=Timeoff: managing employee absences
 After=syslog.target network.target
 
 [Service]
@@ -7,10 +7,10 @@ Type=simple
 User=__APP__
 Group=__APP__
 Environment="PORT=__PORT__"
-Environment="PATH=__ENV_PATH__"
+Environment="PATH=__PATH_WITH_NODEJS__"
 Environment="NODE_ENV=production"
 WorkingDirectory=__INSTALL_DIR__/
-ExecStart=__YNH_NODE__ bin/wwww
+ExecStart=__NODEJS_DIR__/node bin/wwww
 Restart=always
 
 # Sandboxing options to harden security

@@ -1,80 +1,64 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Installing dependencies..."
+ynh_script_progression "Installing dependencies..."
 
 # Install Nodejs
-ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
+ynh_nodejs_install
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..."
+ynh_script_progression "Setting up source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir"
 
-chmod -R o-rwx "$install_dir"
-chown -R $app:www-data "$install_dir"
-
 #=================================================
-# NGINX CONFIGURATION
+# SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring NGINX web server..."
+ynh_script_progression "Adding system configurations related to $app..."
 
 # Create a dedicated NGINX config
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-env_path="$PATH"
-ynh_add_systemd_config
+ynh_config_add_systemd
 
 yunohost service add $app --description="Manage employee absences" --log="/var/log/$app/$app.log"
 
 #=================================================
-# ADD A CONFIGURATION
+# APP INITIAL CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..."
+ynh_script_progression "Adding $app's configuration files..."
 
-ynh_add_config --template="app.json" --destination="$install_dir/config/app.json"
-ynh_add_config --template="db.json" --destination="$install_dir/config/db.json"
+ynh_config_add --template="app.json" --destination="$install_dir/config/app.json"
+ynh_config_add --template="db.json" --destination="$install_dir/config/db.json"
 
-chmod 600 "$install_dir/config/db.json"
-chown $app:$app "$install_dir/config/db.json"
-
-#=================================================
-# SPECIFIC SETUP
 #=================================================
 # INSTALL
 #=================================================
-ynh_script_progression --message="Installing $app..."
+ynh_script_progression "Installing $app..."
 
 pushd $install_dir
-	ynh_use_nodejs
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install
-	#ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm cache clean 2>/dev/null
+	ynh_hide_warnings ynh_exec_as_app npm install
+	#ynh_hide_warnings ynh_exec_as_app npm cache clean
 popd
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression "Starting $app's systemd service..."
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="systemd"
+ynh_systemctl --service=$app --action="start" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of $app completed"
+ynh_script_progression "Installation of $app completed"
