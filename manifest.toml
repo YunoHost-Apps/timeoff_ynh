@@ -7,7 +7,7 @@ name = "Timeoff"
 description.en = "Web application for managing employee absences"
 description.fr = "Application Web de gestion des absences des employés"
 
-version = "1.4.5~ynh3"
+version = "1.4.5~ynh4"
 
 maintainers = ["Julien Malik"]
 
