@@ -1,5 +1,5 @@
 [Unit]
-Description=Timeoff management
+Description=Timeoff: managing employee absences
 After=syslog.target network.target
 
 [Service]

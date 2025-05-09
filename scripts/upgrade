@@ -37,7 +37,7 @@ yunohost service add $app --description="Manage employee absences" --log="/var/l
 
 pushd $install_dir
 	 ynh_hide_warnings ynh_exec_as_app npm install
-	#ynh_exec_as_app node_load_PATH npm cache clean 2>/dev/null
+	#ynh_hide_warnings ynh_exec_as_app npm cache clean 2>/dev/null
 	 ynh_hide_warnings ynh_exec_as_app NODE_ENV=production npm run-script db-update
 popd
 
