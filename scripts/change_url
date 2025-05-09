@@ -20,11 +20,8 @@ ynh_config_change_url_nginx
 #=================================================
 # SPECIFIC MODIFICATIONS
 #=================================================
-# MODIFY CONFIGURATION
-#=================================================
 ynh_script_progression "Updating configuration..."
 
-domain="$new_domain"
 ynh_config_add --template="app.json" --destination="$install_dir/config/app.json"
 
 #=================================================

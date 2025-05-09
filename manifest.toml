@@ -7,7 +7,7 @@ name = "Timeoff"
 description.en = "Web application for managing employee absences"
 description.fr = "Application Web de gestion des absences des employés"
 
-version = "1.4.5~ynh2"
+version = "1.4.5~ynh3"
 
 maintainers = ["Julien Malik"]
 
@@ -18,7 +18,7 @@ admindoc = "https://timeoff.management/support/main-page.html"
 code = "https://github.com/timeoff-management/timeoff-management-application"
 
 [integration]
-yunohost = ">= 11.2.18"
+yunohost = ">= 12.0.9"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
