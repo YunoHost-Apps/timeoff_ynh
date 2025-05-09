@@ -11,7 +11,7 @@ It shall NOT be edited by hand.
 Web application for managing employee absences
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://timeoff.management/)
-[![Version: 1.4.5~ynh3](https://img.shields.io/badge/Version-1.4.5~ynh3-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/timeoff/)
+[![Version: 1.4.5~ynh4](https://img.shields.io/badge/Version-1.4.5~ynh4-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/timeoff/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/timeoff"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
