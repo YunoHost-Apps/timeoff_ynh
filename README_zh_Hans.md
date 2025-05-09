@@ -5,7 +5,9 @@
 
 # YunoHost 上的 Timeoff
 
-[![集成程度](https://dash.yunohost.org/integration/timeoff.svg)](https://dash.yunohost.org/appci/app/timeoff) ![工作状态](https://ci-apps.yunohost.org/ci/badges/timeoff.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/timeoff.maintain.svg)
+[![集成程度](https://apps.yunohost.org/badge/integration/timeoff)](https://ci-apps.yunohost.org/ci/apps/timeoff/)
+![工作状态](https://apps.yunohost.org/badge/state/timeoff)
+![维护状态](https://apps.yunohost.org/badge/maintained/timeoff)
 
 [![使用 YunoHost 安装 Timeoff](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=timeoff)
 
@@ -16,9 +18,10 @@
 
 ## 概况
 
+Web application for managing employee absences.
 
 
-**分发版本：** 1.4.5~ynh1
+**分发版本：** 1.4.5~ynh2
 
 ## 截图
 

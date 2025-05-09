@@ -1,3 +1,5 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
 packaging_format = 2
 
 id = "timeoff"
@@ -5,7 +7,7 @@ name = "Timeoff"
 description.en = "Web application for managing employee absences"
 description.fr = "Application Web de gestion des absences des employés"
 
-version = "1.4.5~ynh1"
+version = "1.4.5~ynh2"
 
 maintainers = ["Julien Malik"]
 
@@ -38,10 +40,10 @@ ram.runtime = "50M"
     default = "visitors"
 
 [resources]
-        [resources.sources.main]
-        url = "https://github.com/timeoff-management/timeoff-management-application/archive/refs/tags/1.4.5.tar.gz"
-        sha256 = "8280eb54b2ea4d419b4d8a5d81ef498a04b2a5bd78bd68ca94ac83b8e8f29eed"
-        autoupdate.strategy = "latest_github_release"
+    [resources.sources.main]
+    url = "https://github.com/timeoff-management/timeoff-management-application/archive/refs/tags/1.4.5.tar.gz"
+    sha256 = "8280eb54b2ea4d419b4d8a5d81ef498a04b2a5bd78bd68ca94ac83b8e8f29eed"
+    autoupdate.strategy = "latest_github_release"
 
     [resources.system_user]
 
@@ -50,7 +52,7 @@ ram.runtime = "50M"
     [resources.permissions]
     main.url = "/"
 
+    [resources.ports]
+
     [resources.apt]
     packages = "sqlite3"
-    
-    [resources.ports]
